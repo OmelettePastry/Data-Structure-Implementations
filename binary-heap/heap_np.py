@@ -18,8 +18,13 @@ class BinaryHeap:
     MAX_HEAP = 1
 
     def __init__(self, heap_type):
+
+        # Array will doube in size if full
         self.array = np.empty(8, dtype='object')
+
+        # Keep track of number of items in array
         self.num_elements = 0
+        
         self.heap_type = heap_type
 
     # Number of actual elements in the heap
@@ -64,20 +69,21 @@ class BinaryHeap:
             return False
 
     def heapify (self):
+        """ Organizes the array elements into a binary heap. """
         if self.num_elements == 0:
             return
 
         index = self.num_elements - 1
 
-        # print("Index: " + str(index))
         while(index >= 0):
             self.sift_down(index)
             index = index - 1        
 
-    # This method builds the heap from an array by iterating from the last element of the array to
-    #   the first element of the array, calling sift_down() on each iteration.
-    #   The 'array' argument must be a numpy array of type 'object'
     def build(self, array):
+        """ This method builds the heap from an array by iterating from the last element of the array to
+        the first element of the array, calling sift_down() on each iteration. The 'array' argument 
+        must be a numpy array of type 'object'. """
+
         if array.size == 0:
             return
 
@@ -86,11 +92,7 @@ class BinaryHeap:
         # The array passed in the argument must be full (num elements in array must equal array.size)
         self.num_elements = self.array.size
         
-        index = self.array.size - 1
-
-        while(index >= 0):
-            self.sift_down(index)
-            index = index - 1
+        self.heapify()
 
     def add(self, value):
         if self.num_elements == self.array.size:

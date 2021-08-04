@@ -51,6 +51,16 @@ class BinaryHeap:
         else:
             return False
 
+    def heapify (self):
+        if len(self.array) == 0:
+            return
+
+        index = len(self.array) - 1
+
+        while(index >= 0):
+            self.sift_down(index)
+            index = index - 1
+
     # This method builds the heap from an array by iterating from the last element of the array to
     #   the first element of the array, and calling sift_down() on each iteration
     def build(self, array):
@@ -58,11 +68,7 @@ class BinaryHeap:
             return
 
         self.array = array
-        index = len(self.array) - 1
-
-        while(index >= 0):
-            self.sift_down(index)
-            index = index - 1
+        self.heapify()
 
     def add(self, value):
         index = len(self.array)
