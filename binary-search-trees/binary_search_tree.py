@@ -34,6 +34,7 @@ class Node:
 
         return new_node
 
+    """ Setters """
     def set_left_child (self, left_child):
 
         # Set left child only if this node is non-NIL
@@ -58,18 +59,7 @@ class Node:
   
         self.count = count
 
-    def decrement (self):
-        self.count = self.count - 1
-
-    def increment (self):
-        self.count = self.count + 1
-
-    def is_nil (self):
-        if self.data == None:
-            return True
-        else:
-            return False
-
+    """ Getters """
     def get_left_child (self):
         return self.left_child
 
@@ -100,6 +90,18 @@ class Node:
     def compare_node (self, node):
         return self.compare_data(node.get_data())
 
+    def decrement (self):
+        self.count = self.count - 1
+
+    def increment (self):
+        self.count = self.count + 1
+
+    def is_nil (self):
+        if self.data == None:
+            return True
+        else:
+            return False        
+
     def child_side (self):
 
         # Make sure this node isn't the root
@@ -119,14 +121,12 @@ class Node:
 
         # Which side is this child node
         side = self.child_side()
-        # Return the node opposite this one
 
+        # Return the node opposite this one
         if side == Node.LEFT:
-            # print("sibling:", self.parent.get_right_child().get_key())
             return self.parent.get_right_child()
 
         elif side == Node.RIGHT:
-            # print("sibling:", self.parent.get_left_child().get_key())            
             return self.parent.get_left_child()
         
         # This is a root node
@@ -278,11 +278,19 @@ class BinarySearchTree:
         node = self.search_node(key)
 
         if node == None:
+
+            # If node not found, return None
             return None
+
         elif node.get_count() > 1:
+
+            # If node found and count > 1, decrease count
             node.decrement()
             return node.get_count()
+
         else:
+
+            # If node is found and there is only one
             self.delete_node(node)
 
     def delete_node (self, node):
@@ -313,7 +321,7 @@ class BinarySearchTree:
             node_left_child = node.get_left_child()
             node_right_child = node.get_right_child()
 
-            # Get in-order predecessor node and make a deep copy
+            # Get in-order predecessor node and make a deep copy of the node
             inorder_predecessor = node.in_order_predecessor()
             new_node = inorder_predecessor.copy()
 
@@ -324,18 +332,23 @@ class BinarySearchTree:
 
             # Set the parent node's child node to new node
             if parent_node == None:
+
+                # Parent node is the root, make the new node the root
                 self.root = new_node
 
             else:
+
+                # Otherwise, set the paren't appropriate child to the new node
                 if (node.child_side() == Node.LEFT):
                     parent_node.set_left_child(new_node)
                 else:
                     parent_node.set_right_child(new_node)
 
-            # Set child nodes' parent to new node
+            # Set original child nodes' parent to new node
             node_left_child.set_parent(new_node)
             node_right_child.set_parent(new_node)
 
+            # Delete in-rder predecessor node
             self.delete_node(inorder_predecessor)
 
         # Node with one children
