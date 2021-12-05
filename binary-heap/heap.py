@@ -36,6 +36,7 @@ class BinaryHeap:
         else:
             return True
 
+    # Determines index of parent index - valid index is determined in calling code
     def parent(self, index):
         return (index - 1) // 2
 
